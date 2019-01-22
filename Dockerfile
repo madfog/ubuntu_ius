@@ -25,7 +25,7 @@ RUN apt-get install -y \
     libjasper-dev \
     libavformat-dev \
     libpq-dev \
-	ffmpeg \
+    ffmpeg \
     libgtk2.0-0 \
     software-properties-common
 
@@ -48,6 +48,74 @@ RUN apt-get upgrade libstdc++6 -y
 # && ldconfig \
 # && rm /SRB5.0_linux64.zip \
 # && rm -r /SRB5.0_linux64
+
+
+# ===== TODO:not include this build
+## Intel Openvino
+#ARG DLDT_TEMP_DIR=/tmp/cvsdk_install/l_openvino_toolkit_p_2018.2.319
+#RUN mkdir -p $DLDT_TEMP_DIR
+#ADD l_openvino_toolkit_p_2018.2.319 $DLDT_TEMP_DIR/l_openvino_toolkit_p_2018.2.319
+RUN cd $DLDT_TEMP_DIR \
+#&& wget -c http://nnt-srv01.inn.intel.com/builds/cvsdk/18WW17.3/l_intel_cv_sdk_p_2018.0.234.tgz \
+#&& tar xf l_intel_cv_sdk_p_2018.0.234.tgz \
+#&& cd l_openvino_toolkit_p_2018.2.319 \
+#&& sed -i 's/decline/accept/g' silent.cfg \
+#&& ./install.sh -s silent.cfg \
+#&& cd ~ \
+#&& rm -r /tmp/cvsdk_install/l_openvino_toolkit_p_2018.2.319 \
+#&& rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/intel_models \
+#&& rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/documentation \
+#&& rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/model_optimizer \
+#&& rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/inference_engine/lib/centos_7.3 \
+#&& rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/inference_engine/lib/centos_7.4 \
+#&& rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/inference_engine/tools/centos_7.3 \
+#&& rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/inference_engine/tools/centos_7.4 \
+#&& apt-get remove git unzip wget cpio software-properties-common -y#
+
+## && rm -r /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/demo \
+## && rm -r /opt/intel/computer_vision_sdk_2018.0.234/deployment_tools/inference_engine/samples \#
+
+## INTEL GPU DRIVERS
+#RUN cd /opt/intel/computer_vision_sdk_2018.2.319/install_dependencies \
+#&& ./install_NEO_OCL_driver.sh#
+
+## Setting ENV variables
+#ARG INTEL_DLSDK_DIR=/opt/intel/computer_vision_sdk_2018.2.319
+#ENV IE_PLUGINS_PATH=$INTEL_DLSDK_DIR/deployment_tools/inference_engine/lib/ubuntu_16.04/intel64#
+
+#ENV LD_LIBRARY_PATH="$INTEL_DLSDK_DIR/deployment_tools/inference_engine/external/cldnn/lib:$INTEL_DLSDK_DIR/deployment_tools/inference_engine/external/myriad/lib:$INTEL_DLSDK_DIR/deployment_tools/inference_engine/external/hddl/lib:$INTEL_DLSDK_DIR/deployment_tools/inference_engine/external/gna/lib:$INTEL_DLSDK_DIR/deployment_tools/inference_engine/external/mkltiny_lnx/lib:$IE_PLUGINS_PATH:${LD_LIBRARY_PATH}"#
+
+#ENV InferenceEngine_DIR="$INTEL_DLSDK_DIR/deployment_tools/inference_engine/share"
+#ENV PATH="$INTEL_DLSDK_DIR/deployment_tools/model_optimizer:$PATH"
+#ENV PYTHONPATH="$INTEL_DLSDK_DIR/deployment_tools/model_optimizer:$PYTHONPATH"
+#ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+#ENV INTEL_CVSDK_DIR=/opt/intel/computer_vision_sdk_2018.2.319
+#ENV LD_LIBRARY_PATH=/opt/intel/computer_vision_sdk_2018.2.319/openvx/lib:$LD_LIBRARY_PATH
+#ENV LD_LIBRARY_PATH=/opt/intel/computer_vision_sdk_2018.2.319/mo/model_optimizer_caffe/bin:$LD_LIBRARY_PATH
+#ENV OpenCV_DIR=/opt/intel/computer_vision_sdk_2018.2.319/opencv/share/OpenCV
+#ENV LD_LIBRARY_PATH=/opt/intel/computer_vision_sdk_2018.2.319/opencv/lib:$LD_LIBRARY_PATH
+#ENV LD_LIBRARY_PATH=opt/intel/computer_vision_sdk_2018.2.319/opencv/share/OpenCV/3rdparty/lib:$LD_LIBRARY_PATH
+#ENV CGO_CPPFLAGS="-I${INTEL_CVSDK_DIR}/opencv/include"
+#ENV CGO_LDFLAGS="-L${INTEL_CVSDK_DIR}/opencv/lib -lopencv_core -lopencv_pvl -lopencv_face -lopencv_videoio -lopencv_imgproc -lopencv_highgui -lopencv_imgcodecs -lopencv_objdetect -lopencv_features2d -lopencv_video -lopencv_dnn -lopencv_xfeatures2d"#
+
+## Build Sample Code
+#RUN cd /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/inference_engine/samples \
+#&& mkdir build \
+#&& cd build \
+#&& cmake .. \
+#&& make#
+
+## COPY IR MODELS
+#RUN mkdir /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/demo/ir
+## squeezenet1.1
+#COPY ./resouce/car.png /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/demo/car.png
+#COPY ./resouce/squeezenet1.1 /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/demo/ir/squeezenet1.1
+## ssd300
+## COPY ssd300 /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/demo/ir/ssd300
+## mobilenet-ssd
+#COPY ./resouce/mobilenet-ssd /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/demo/ir/mobilenet-ssd
+#COPY ./resouce/000001.jpg /opt/intel/computer_vision_sdk_2018.2.319/deployment_tools/demo/000001.jpg
+# ===== TODO:end
 
 
 
